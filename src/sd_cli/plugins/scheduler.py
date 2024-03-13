@@ -1,0 +1,28 @@
+from .base import PluginBase
+from diffusers import DPMSolverSinglestepScheduler, DPMSolverMultistepScheduler, EulerDiscreteScheduler, EulerAncestralDiscreteScheduler, UniPCMultistepScheduler
+
+class PluginScheduler(PluginBase):
+
+    def setup_args(self, parser):
+        parser.add_argument("--scheduler", type=str)
+
+    def setup_pipe(self):
+        scheduler = self.ctx.args.scheduler
+        if not scheduler:
+            return
+
+        pipe = self.ctx.pipe
+        # https://huggingface.co/docs/diffusers/api/schedulers/overview
+        scheduler_alias = {
+            'DPM++ 2M': (DPMSolverMultistepScheduler, {}),
+            'DPM++ 2M Karras': (DPMSolverMultistepScheduler, dict(use_karras_sigmas=True)),
+            'DPM++ 2M SDE': (DPMSolverMultistepScheduler, dict(algorithm_type="sde-dpmsolver++")),
+            'DPM++ 2M SDE Karras': (DPMSolverMultistepScheduler, dict(algorithm_type="sde-dpmsolver++", use_karras_sigmas=True)),
+            'DPM++ SDE': (DPMSolverSinglestepScheduler, {}),
+            'DPM++ SDE Karras': (DPMSolverSinglestepScheduler, dict(use_karras_sigmas=True, lower_order_final=True)),
+            'Euler': (EulerDiscreteScheduler, {}),
+            'Euler a': (EulerAncestralDiscreteScheduler, {}),
+            'UniPC': (UniPCMultistepScheduler, {}),
+        }
+        (Scheduler, config) = scheduler_alias[scheduler]
+        pipe.scheduler = Scheduler.from_config(pipe.scheduler.config, **config)
