@@ -18,7 +18,7 @@ requires-python = ">=3.8"
 dependencies = [
     "torch>=2.2.1",
     "torchvision>=0.17.1",
-    "diffusers@https://github.com/huggingface/diffusers/archive/main.zip",
+    "diffusers>=0.26.3",
     "transformers>=4.38.2",
     "prompt-toolkit>=3.0.43",
     "controlnet_aux>=0.0.7",
@@ -27,9 +27,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-photomaker = [
-    "photomaker@https://github.com/TencentARC/PhotoMaker/archive/main.zip",
-]
+photomaker = ["photomakerv>=0.1.0"]
 faceid = ["insightface>=0.7.3", "onnxruntime>=1.16.3"]
 
 [project.urls]
