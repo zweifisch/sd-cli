@@ -3,6 +3,9 @@ import json
 from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+from timm.models.cspnet import asdict
+from .base import PluginBase
+
 def serve(interface: str, pipe):
 
     class Handler(BaseHTTPRequestHandler):
@@ -31,3 +34,20 @@ def serve(interface: str, pipe):
 
     server = HTTPServer((host, int(port)), Handler)
     server.serve_forever()
+
+class PluginHTTP(PluginBase):
+
+    def setup_args(self, parser):
+        parser.add_argument('--listen', type=str, help='Start a HTTP Server')
+
+    def setup_pipe(self):
+
+        def run(payload):
+            self.ctx.pipe_opts_otg = payload
+            for plugin in self.ctx.plugins:
+                plugin.pre_pipe()
+            return self.ctx.pipe(**{**asdict(self.ctx.pipe_opts), **self.ctx.pipe_opts_extra})
+
+        if self.ctx.args.listen:
+            serve(self.ctx.args.listen, run)
+            return

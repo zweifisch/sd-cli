@@ -9,16 +9,14 @@ def hf_download(fullname, offline=False):
 class PluginResAdaptor(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("--res-adaptor", type=float)
+        parser.add_argument("--res-adapter", type=float, help='Resolution Adepter Strength')
 
     def setup_pipe(self):
-        args = self.ctx.args
-        pipe = self.ctx.pipe
-        if not self.ctx.args.res_adaptor:
+        if not self.ctx.args.res_adapter:
             return
 
-        pipe.load_lora_weights(
+        self.ctx.pipe.load_lora_weights(
             hf_download("jiaxiangc/res-adapter/sdxl-i/resolution_lora.safetensors", offline=self.ctx.offline),
             adapter_name="res_adapter"
         )
-        self.ctx.loras.append(("res_adapter", args.res_adaptor))
+        self.ctx.loras.append(("res_adapter", self.ctx.args.res_adapter))

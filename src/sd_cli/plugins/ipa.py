@@ -1,15 +1,8 @@
 import os
 import torch
 from argparse import ArgumentParser
-from diffusers import DDIMScheduler
 from .base import PluginBase
 from diffusers.utils import load_image
-from typing import List
-
-def load_images(locations: List[str]):
-    if '.' in os.path.basename(locations[0]):
-        return [load_image(x) for x in locations]
-    return [load_image(x) for x in sorted([os.path.join(locations[0], basename) for basename in os.listdir(locations[0])])]
 
 class PluginIPAdaptor(PluginBase):
 

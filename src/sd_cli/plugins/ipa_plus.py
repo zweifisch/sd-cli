@@ -1,25 +1,19 @@
-import os
 import torch
 from argparse import ArgumentParser
 from diffusers import DDIMScheduler
 from .base import PluginBase
-from diffusers.utils import load_image
-from typing import List
+from .utils import load_images
 
-def load_images(locations: List[str]):
-    if locations is None:
-        return []
-    if '.' in os.path.basename(locations[0]):
-        return [load_image(x) for x in locations]
-    return [load_image(x) for x in sorted([os.path.join(locations[0], basename) for basename in os.listdir(locations[0])])]
 
 class PluginIPAdaptorPlus(PluginBase):
 
     def setup_args(self, parser: ArgumentParser):
-        parser.add_argument("--ipa-plus", type=str, nargs='+', help="IPAdator Plus")
-        parser.add_argument("--ipa-plus-face", type=str, nargs='+', help="IPAdator Plus Face")
+        group = parser.add_argument_group('IP-Adapter Plus')
+        group.add_argument("--ipa-plus", type=str, nargs='+', help="IPAdater Plus")
+        group.add_argument("--ipa-plus-face", type=str, nargs='+', help="IPAdater Plus Face")
+        group.add_argument("--ipa-plus-scale", type=float, nargs='+', help="IPAdater Plus Scale")
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.ipa_plus_face and not self.ctx.args.ipa_plus:
             return
 
@@ -38,7 +32,7 @@ class PluginIPAdaptorPlus(PluginBase):
 
         pipe = self.ctx.pipe
         pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config)
-        pipe.set_ip_adapter_scale(args.ipa_scale)
+        pipe.set_ip_adapter_scale(args.ipa_plus_scale)
 
         pipe.load_ip_adapter(
             "h94/IP-Adapter",

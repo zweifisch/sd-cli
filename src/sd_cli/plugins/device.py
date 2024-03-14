@@ -12,5 +12,5 @@ class PluginDevice(PluginBase):
             device = 'mps'
         parser.add_argument("--device", type=str, default=device)
 
-    def setup_pipeline(self):
+    def setup(self):
         self.ctx.device = self.ctx.args.device

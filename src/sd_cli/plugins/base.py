@@ -40,12 +40,15 @@ class Context:
     pipe: Optional[Any] = None
     pipe_opts: PipeOptions = PipeOptions()
     pipe_opts_extra: dict = field(default_factory=dict)
+    pipe_opts_otg: dict = field(default_factory=dict)
     loras: List[Tuple[str, float]] = field(default_factory=list)
     model: str = ''
     seed: Optional[int] = None
     offline: bool = False
     device: str = 'cpu'
     debug: bool = False
+    count: int = 1
+    plugins: List[Any] = field(default_factory=list)
 
 class PluginBase():
 
@@ -57,7 +60,7 @@ class PluginBase():
     def setup_args(self, parser: ArgumentParser):
         pass
 
-    def setup_pipeline(self):
+    def setup(self):
         pass
 
     def setup_pipe(self):

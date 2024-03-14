@@ -5,18 +5,17 @@ import torch
 from .base import PluginBase
 from diffusers.models import ControlNetModel
 from diffusers.utils import load_image
-from .utils import resize_image
-
-def hf_download(fullname, offline=False):
-    ns, project, filename = fullname.split('/', 2)
-    return hf_hub_download(repo_id=f"{ns}/{project}", filename=filename, local_files_only=offline, resume_download=not offline)
+from .utils import resize_image, hf_download
 
 class PluginInstantID(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("--instantid", type=str, help="Instant ID")
+        group = parser.add_argument_group("Instant ID")
+        group.add_argument("--instantid", type=str, help="Reference Image")
+        group.add_argument("--instantid-cond-scale", type=float, default=1.0, help="ControlNet Conditioning Scale")
+        group.add_argument("--instantid-ipa-scale", type=float, default=0.7, help="IP-Adaptor Scale")
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.instantid:
             return
 
@@ -26,9 +25,9 @@ class PluginInstantID(PluginBase):
 
         self.ctx.pipeline_opts_extra['controlnet'] = [ControlNetModel.from_pretrained(
             os.path.dirname(ctrlnet_path),
-            torch_dtype=torch.float32
+            torch_dtype=torch.float32 if self.ctx.device == 'mps' else torch.float16,
         )]
-        self.ctx.pipeline_opts.torch_dtype = torch.float32
+        self.ctx.pipeline_opts.torch_dtype = torch.float32 if self.ctx.device == 'mps' else torch.float16
         self.ctx.pipeline = StableDiffusionXLInstantIDPipeline
 
     def setup_pipe(self):
@@ -50,13 +49,15 @@ class PluginInstantID(PluginBase):
         self.ctx.pipe_opts_extra['image_embeds'] = face_info['embedding']
 
         pose_image = draw_kps(face_image, face_info['kps'])
+        if self.ctx.debug:
+            pose_image.save('instantid-face.webp')
         resized = resize_image(pose_image, self.ctx.pipe_opts.width, self.ctx.pipe_opts.height)
 
         self.ctx.pipe_opts.image = [resized]
         self.ctx.pipe_opts.width = resized.width
         self.ctx.pipe_opts.height = resized.height
-        self.ctx.pipe_opts_extra['controlnet_conditioning_scale'] = 1.0
-        self.ctx.pipe_opts_extra['ip_adapter_scale'] = self.ctx.args.ipa_scale[0]
+        self.ctx.pipe_opts_extra['controlnet_conditioning_scale'] = self.ctx.args.instantid_cond_scale
+        self.ctx.pipe_opts_extra['ip_adapter_scale'] = self.ctx.args.instantid_ipa_scale
 
         self.ctx.pipe.load_ip_adapter_instantid(
             hf_download("InstantX/InstantID/ip-adapter.bin", offline=self.ctx.offline))

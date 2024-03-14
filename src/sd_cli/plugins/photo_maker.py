@@ -13,10 +13,11 @@ def load_images(locations: List[str]):
 class PluginPhotoMaker(PluginBase):
 
     def setup_args(self, parser: ArgumentParser):
-        parser.add_argument("--photo-maker", type=str, nargs='+', help="photomaker")
-        parser.add_argument("--photo-maker-weight", type=float, default=1.0, help="photomaker weight")
+        group = parser.add_argument_group("PhotoMaker")
+        group.add_argument("--photo-maker", type=str, nargs='+', help="Reference Image")
+        group.add_argument("--photo-maker-weight", type=float, default=1.0, help="PhotoMaker Weight")
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.photo_maker:
             return
 

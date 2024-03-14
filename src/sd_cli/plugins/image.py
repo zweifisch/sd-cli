@@ -7,10 +7,11 @@ from diffusers.utils import load_image
 class PluginImage(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("--image", type=str, help="Image Prompt")
-        parser.add_argument("--strength", type=float, default=0.5, help="higher strength -> more creativity")
+        group = parser.add_argument_group('Refiner')
+        group.add_argument("--image", type=str, help="Image Prompt")
+        group.add_argument("--strength", type=float, default=0.5, help="higher strength -> more creativity")
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.image:
             return
 

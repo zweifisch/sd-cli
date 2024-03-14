@@ -9,12 +9,13 @@ from .utils import resize_image
 class PluginCanny(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("--canny", type=str, help="canny ref image")
-        parser.add_argument("--canny-high", type=int, default=100, help="canny high")
-        parser.add_argument("--canny-low", type=int, default=200, help="canny low")
-        parser.add_argument("--cncs", type=float, default=0.8, help="controlnet conditioning scale")
+        group = parser.add_argument_group('Canny')
+        group.add_argument("--canny", type=str, help="Canny Reference Image")
+        group.add_argument("--canny-high", type=int, default=100, help="Canny High")
+        group.add_argument("--canny-low", type=int, default=200, help="Canny Low")
+        group.add_argument("--canny-cond-scale", type=float, default=0.8, help="Controlnet Conditioning Scale")
 
-    def setup_pipeline(self):
+    def setup(self):
         args = self.ctx.args
         if not args.canny:
             return
@@ -34,8 +35,7 @@ class PluginCanny(PluginBase):
         self.ctx.pipeline = StableDiffusionXLControlNetPipeline
 
     def setup_pipe(self):
-        args = self.ctx.args
-        if not args.canny:
+        if not self.ctx.args.canny:
             return
 
         pipe_opts = self.ctx.pipe_opts
@@ -43,4 +43,4 @@ class PluginCanny(PluginBase):
         pipe_opts.width = resized.width
         pipe_opts.height = resized.height
         self.ctx.pipe_opts.image = resized
-        self.ctx.pipe_opts_extra['controlnet_conditioning_scale'] = args.cncs
+        self.ctx.pipe_opts_extra['controlnet_conditioning_scale'] = self.ctx.args.canny_cond_scale

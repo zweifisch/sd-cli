@@ -18,17 +18,22 @@ requires-python = ">=3.8"
 dependencies = [
     "torch>=2.2.1",
     "torchvision>=0.17.1",
-    "diffusers>=2.7.0",
+    "diffusers@https://github.com/huggingface/diffusers/archive/main.zip",
     "transformers>=4.38.2",
+    "prompt-toolkit>=3.0.43",
+    "controlnet_aux>=0.0.7",
+    "accelerate>=0.25.0",
+    "peft>=0.9.0",
 ]
 
 [project.optional-dependencies]
-photomaker = ["photomaker@git+https://github.com/TencentARC/PhotoMaker.git"]
-controllnet = ["controlnet_aux>=0.0.7"]
-faceid = ["ip_adapter@git+https://github.com/tencent-ailab/IP-Adapter"]
+photomaker = [
+    "photomaker@https://github.com/TencentARC/PhotoMaker/archive/main.zip",
+]
+faceid = ["insightface>=0.7.3", "onnxruntime>=1.16.3"]
 
 [project.urls]
 Home = "https://github.com/zweifisch/sd-cli"
 
 [project.scripts]
-sd = "sd_cli:main"
+sdxl = "sd_cli.sdxl:main"

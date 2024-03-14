@@ -1,17 +1,17 @@
-import os
-from huggingface_hub import hf_hub_download
 import torch
 from argparse import ArgumentParser
 from diffusers.utils import load_image
-from diffusers import DDIMScheduler, AutoencoderKL
+from diffusers import DDIMScheduler
 from .base import PluginBase
+from .utils import hf_download
 
 class PluginIPAdaptorFaceIDPlus(PluginBase):
 
     def setup_args(self, parser: ArgumentParser):
-        parser.add_argument("--ipa-faceid-plus", type=str, help="IP-Adator FaceID Plus V2")
+        group = parser.add_argument_group('IP-Adator FaceID Plus V2')
+        group.add_argument("--ipa-faceid-plus", type=str, help="Reference Image")
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.ipa_faceid_plus:
             return
 
@@ -34,9 +34,7 @@ class PluginIPAdaptorFaceIDPlus(PluginBase):
 
         from .ip_adapter.ip_adapter_faceid import IPAdapterFaceIDPlusXL
 
-        pipe = self.ctx.pipe
-
-        pipe.scheduler = DDIMScheduler(
+        self.ctx.pipe.scheduler = DDIMScheduler(
             num_train_timesteps=1000,
             beta_start=0.00085,
             beta_end=0.012,
@@ -47,11 +45,12 @@ class PluginIPAdaptorFaceIDPlus(PluginBase):
         )
 
         self.ctx.pipe = IPAdapterFaceIDPlusXL(
-            pipe,
+            self.ctx.pipe,
             "laion/CLIP-ViT-H-14-laion2B-s32B-b79K",
-            hf_hub_download("h94/IP-Adapter-FaceID", "ip-adapter-faceid-plusv2_sdxl.bin", resume_download=not self.ctx.offline),
+            hf_download("h94/IP-Adapter-FaceID/ip-adapter-faceid-plusv2_sdxl.bin", offline=self.ctx.offline),
             self.ctx.device,
-            torch_dtype=torch.float16)
+            torch_dtype=torch.float16
+        )
 
         self.ctx.pipe_opts_extra['faceid_embeds'] = self.faceid_embeds
         self.ctx.pipe_opts_extra['num_samples'] = 1

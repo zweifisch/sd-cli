@@ -26,7 +26,7 @@ class PluginPose(PluginBase):
     def setup_args(self, parser: ArgumentParser):
         parser.add_argument('--pose', type=str)
 
-    def setup_pipeline(self):
+    def setup(self):
         if not self.ctx.args.pose:
             return
 
