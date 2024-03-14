@@ -1,7 +1,7 @@
-# sd-cli
+# sd-tools
 
 ```shell
-pip install sd-cli
+pip install sd-tools
 ```
 
 ## Basics
@@ -132,7 +132,7 @@ sdxl 'protrait of a man' --pose photo.jpg
 ### Photo Maker
 
 ```shell
-pip install sd-cli[photomaker]
+pip install sd-tools[photomaker]
 ```
 
 use `img` to indicate the reference target
@@ -174,7 +174,7 @@ sdxl 'Mario' --ipa-plus ./styles --ipa-plus-face ./faces
 ### IP-Adapter FaceID Plus
 
 ```shell
-pip install sd-cli[faceid]
+pip install sd-tools[faceid]
 ```
 
 ```shell
@@ -184,7 +184,7 @@ sdxl 'Mario' --ipa-faceid face.png
 ### InstantID
 
 ```shell
-pip install sd-cli[faceid]
+pip install sd-tools[faceid]
 ```
 
 ```shell

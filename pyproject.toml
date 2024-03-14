@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "sd_cli"
+name = "sd_tools"
 version = "1.0.0"
 authors = [{ name = "Feng Zhou", email = "zf.pascal@gmail.com" }]
 description = "command line tool for stable diffusion"
@@ -34,4 +34,4 @@ faceid = ["insightface>=0.7.3", "onnxruntime>=1.16.3"]
 Home = "https://github.com/zweifisch/sd-cli"
 
 [project.scripts]
-sdxl = "sd_cli.sdxl:main"
+sdxl = "sd_tools.sdxl:main"
