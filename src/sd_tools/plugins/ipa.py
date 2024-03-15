@@ -1,5 +1,3 @@
-import os
-import torch
 from argparse import ArgumentParser
 from .base import PluginBase
 from diffusers.utils import load_image

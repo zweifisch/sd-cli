@@ -1,14 +1,8 @@
 import os
 from argparse import ArgumentParser
 from huggingface_hub import hf_hub_download
-from diffusers.utils import load_image
 from .base import PluginBase
-from typing import List
-
-def load_images(locations: List[str]):
-    if '.' in os.path.basename(locations[0]):
-        return [load_image(x) for x in locations]
-    return [load_image(x) for x in sorted([os.path.join(locations[0], basename) for basename in os.listdir(locations[0])])]
+from .utils import load_images
 
 class PluginPhotoMaker(PluginBase):
 
@@ -42,3 +36,6 @@ class PluginPhotoMaker(PluginBase):
             trigger_word="img"
         )
         self.ctx.loras.append(("photomaker", args.photo_maker_weight))
+        if not self.ctx.pipe_opts.guidance_scale:
+            print(f"photomaker requires cfg > 0, setting to 1.0")
+            self.ctx.pipe_opts.guidance_scale = 1

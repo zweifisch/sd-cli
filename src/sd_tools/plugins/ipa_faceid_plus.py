@@ -19,7 +19,7 @@ class PluginIPAdaptorFaceIDPlus(PluginBase):
         from insightface.utils import face_align
         import cv2
 
-        app = FaceAnalysis(name="buffalo_l", providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+        app = FaceAnalysis(name="buffalo_l", providers=['CUDAExecutionProvider', 'CoreMLExecutionProvider', 'CPUExecutionProvider'])
         app.prepare(ctx_id=0, det_size=(640, 640))
 
         image = cv2.imread(self.ctx.args.ipa_faceid_plus)

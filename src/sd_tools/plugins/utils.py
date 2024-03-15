@@ -27,9 +27,15 @@ def hf_download(fullname, offline=False):
 def load_images(locations: List[str]) -> List[Image.Image]:
     if locations is None:
         return []
-    if '.' in os.path.basename(locations[0]):
-        return [load_image(x) for x in locations]
-    return [load_image(x) for x in sorted([os.path.join(locations[0], basename) for basename in os.listdir(locations[0])])]
+    files = [x for x in locations if os.path.isfile(x)]
+    directories = [x for x in locations if os.path.isdir(x)]
+    invalids = [x for x in locations if x not in files and x not in directories]
+    assert len(invalids) == 0, f"Invalid path: {', '.join(invalids)}"
+    for x in directories:
+        files.extend(sorted([
+            os.path.join(x, basename) for basename in os.listdir(x) if not basename.startswith('.')
+        ]))
+    return [load_image(x) for x in files]
 
 def remove_none(input_dict):
     return {k: v for k, v in input_dict.items() if v is not None}

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from os import PathLike
-from typing import Protocol, List, Any, Tuple, Optional, Dict
+from typing import Protocol, List, Any, Tuple, Optional, Dict, Union, Literal
 import torch
 from PIL.Image import Image
 from argparse import ArgumentParser, Namespace
@@ -33,6 +33,7 @@ class Pipeline(Protocol):
 
 @dataclass
 class Context:
+    arch: Union[Literal['SD'] , Literal['SDXL']]
     args: Namespace = Namespace()
     pipeline: Optional[Any] = None
     pipeline_opts: PipelineOptions = PipelineOptions()

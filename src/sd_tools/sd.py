@@ -1,84 +1,63 @@
 import argparse
 from argparse import RawTextHelpFormatter
 
-from sd_tools.plugins.safetensor import PluginSafetensor
-
 from .plugins.debug import PluginDebug
 from .plugins.base import Context, PipeOptions, PipelineOptions
-from .plugins.lightning import PluginLightning
-from .plugins.photo_maker import PluginPhotoMaker
 from .plugins.cfg import PluginCFG
 from .plugins.size import PluginSize
 from .plugins.prompt import PluginPrompt
-from .plugins.modelXL import PluginModelXL
+from .plugins.model import PluginModel
 from .plugins.pipe import PluginPipe
 from .plugins.inpainting import PluginInpainting
-from .plugins.tcd import PluginTCD
-from .plugins.lcm import PluginLCM
 from .plugins.steps import PluginSteps
 from .plugins.output import PluginOutput
 from .plugins.lora import PluginLora
 from .plugins.seed import PluginSeed
 from .plugins.scheduler import PluginScheduler
-from .plugins.res_adapter import PluginResAdaptor
-from .plugins.image import PluginImage
 from .plugins.device import PluginDevice
-# from .plugins.ipa import PluginIPAdaptor
-from .plugins.ipa_plus import PluginIPAdaptorPlus
-# from .plugins.ipa_faceid import PluginIPAdaptorFaceID
-from .plugins.ipa_faceid_plus import PluginIPAdaptorFaceIDPlus
-from .plugins.instantid import PluginInstantID
-from .plugins.canny import PluginCanny
-from .plugins.pose import PluginPose
-from .plugins.depth import PluginDepth
+from .plugins.lcm import PluginLCM
 from .plugins.offline import PluginOffline
 from .plugins.http import PluginHTTP
 from .plugins.run import PluginRun
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Stable Diffusion XL",
+        description="Stable Diffusion",
         usage="",
         formatter_class=RawTextHelpFormatter,
         epilog="""
 Examples:
 
-    %(prog)s 'locomotive comming, masterpiece'
+    %(prog)s 'locomotive comming'
 
-    %(prog)s 'portrait of a man' --model Lykon/dreamshaper-xl-lightning --steps 6 --size 576x1024 --cfg 1.5
+    %(prog)s 'locomotive comming' --steps 4 --model Lykon/dreamshaper-8 --lcm 1 --cfg 2
 
 """
     )
 
-    ctx = Context(arch='SDXL')
+    ctx = Context(arch='SD')
     plugins = [
         PluginDebug(ctx),
         PluginPipe(ctx),
         PluginOffline(ctx),
-        PluginSafetensor(ctx),
         PluginInpainting(ctx),
-        PluginModelXL(ctx),
+        PluginModel(ctx),
         PluginDevice(ctx),
         PluginSize(ctx),
         PluginCFG(ctx),
         PluginPrompt(ctx),
         PluginSteps(ctx),
         PluginSeed(ctx),
-        PluginTCD(ctx),
         PluginLCM(ctx),
-        PluginLightning(ctx),
         PluginOutput(ctx),
-        PluginCanny(ctx),
-        PluginPose(ctx),
-        PluginDepth(ctx),
-        PluginPhotoMaker(ctx),
+        # PluginCanny(ctx),
+        # PluginPose(ctx),
+        # PluginDepth(ctx),
         # PluginIPAdaptor(ctx),
-        PluginIPAdaptorPlus(ctx),
+        # PluginIPAdaptorPlus(ctx),
         # PluginIPAdaptorFaceID(ctx),
-        PluginIPAdaptorFaceIDPlus(ctx),
-        PluginInstantID(ctx),
-        PluginResAdaptor(ctx),
-        PluginImage(ctx),
+        # PluginIPAdaptorFaceIDPlus(ctx),
+        # PluginImage(ctx),
         PluginScheduler(ctx),
         PluginLora(ctx),
         PluginHTTP(ctx),

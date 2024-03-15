@@ -7,7 +7,7 @@ pip install sd-tools
 ## Basics
 
 ```shell
-sdxl 'locomotive comming' --size 512
+sdxl 'locomotive'
 ```
 
 If the model can't be downloaded, try using a huggingface mirror:
@@ -16,16 +16,22 @@ If the model can't be downloaded, try using a huggingface mirror:
 export HF_MIRROR=https://hf-mirror.com
 ```
 
-To get better result, use more steps and higher resolution:
+To get better result, use more steps and higher resolutions:
 
 ```shell
-sdxl 'locomotive comming' --size 720 --steps 4
+sdxl 'locomotive' --size 720 --steps 4
 ```
 
-Generate more with different resolution:
+Generate more with `--count`:
 
 ```shell
-sdxl 'locomotive comming' --size 1024x576 --steps 4 --count 4
+sdxl 'locomotive' --size 1024x576 --steps 4 --count 3
+```
+
+By default, images are save to `output/{seed}-{time}.webp`, which can be customized via `-o`:
+
+```shell
+sdxl 'locomotive' -o 'output/{seed}-{size}-{cfg}-{time}.png'
 ```
 
 ### Interactive Mode
@@ -33,19 +39,19 @@ sdxl 'locomotive comming' --size 1024x576 --steps 4 --count 4
 The loading of the model can task some time, use `-i` to enter interactive mode, keeping the model loaded:
 
 ```shell
-sdxl 'locomotive comming' --size 1024x576 --steps 4 -i
+sdxl 'locomotive' --size 1024x576 --steps 4 -i
 ```
 
 Edited prompt and press enter:
 
 ```
-> locomotive comming
+> locomotive
 ```
 
-`size`, `count` and `cfg` can also be set on the fly:
+`size`, `count`, `steps` and `cfg` can also be set on the fly:
 
 ```
-> locomotive comming size=1024
+> locomotive size=1024 cfg=1.9
 ```
 
 ### Custom Models
@@ -53,32 +59,32 @@ Edited prompt and press enter:
 To use a specific model:
 
 ```shell
-sdxl --model Lykon/dreamshaper-xl-lightning \
+sdxl 'locomotive' \
+ --model Lykon/dreamshaper-xl-lightning \
  --steps 6 \
  --size 1024x576 \
  --scheduler 'DPM++ SDE Karras' \
  --cfg 2 \
- 'locomotive comming'
 ```
 
 More models can be found on [huggingface](https://huggingface.co/models?pipeline_tag=text-to-image&sort=trending) and [civitai](https://civitai.com/models), models with Lightning or Turbo can generate image in less than 8 steps.
 
-For models without fp16 variant and safetensor format, add `--no-fp16` and `--no-safetensor`
+For models without fp16 variant or safetensor format, add `--no-fp16` or `--no-safetensor`
 
 ```shell
-sdxl --model RunDiffusion/Juggernaut-XL-Lightning \
+sdxl 'locomotive' \
+ --model RunDiffusion/Juggernaut-XL-Lightning \
  --cfg 1.5 \
  --steps 6 \
  --size 832x1216 \
  --scheduler 'DPM++ SDE' \
- --no-fp16 --no-safetensor \
- 'locomotive comming'
+ --no-fp16 --no-safetensor
 ```
 
 To use models downloaded from civitai:
 
 ```shell
-sdxl --model ./model.safetensors 'locomotive comming'
+sdxl 'locomotive' --model ./model.safetensors
 ```
 
 ### Loras
@@ -86,12 +92,11 @@ sdxl --model ./model.safetensors 'locomotive comming'
 Loras are like plugins for the base model, multiple loras can be used:
 
 ```shell
-sdxl \
+sdxl 'locomotive' \
  --model SG161222/RealVisXL_V4.0_Lightning \
  --steps 8 \
  --size 1024x576 \
  --loras ./lora1.safetensors ./lora2.safetensors:0.8 \
- 'locomotive comming'
 ```
 
 ### Speed Up Generation
@@ -99,12 +104,11 @@ sdxl \
 Using `--lcm`, `--tcd` or `--lightning` to speed up generation, not necessary for turbo/lightning models:
 
 ```shell
-sdxl \
+sdxl 'locomotive' \
  --model SG161222/RealVisXL_V4.0 \
  --steps 4 \
  --size 1024x576 \
  --tcd 1 \
- 'locomotive comming'
 ```
 
 ## More Controlling
@@ -127,89 +131,153 @@ sdxl 'protrait of a man' --depth photo.jpg
 sdxl 'protrait of a man' --pose photo.jpg
 ```
 
+### Inpainting
+
+```shell
+sdxl 'helmet' \
+ --inpaint test/tesla.webp \
+ --inpaint-mask mask.png \
+ --steps 40 \
+ -i \
+ -o output/preview.png
+```
+
+Open mask.png, paint the area to be modified, close image editor, then press Enter to start inpainting.
+
 ## Style and Face
 
 ### Photo Maker
 
 ```shell
-pip install sd-tools[photomaker]
+pip install 'sd-tools[photomaker]'
 ```
 
 use `img` to indicate the reference target
 
 ```shell
-sdxl \
+sdxl 'man img holding a toy car' \
  --model Lykon/dreamshaper-xl-lightning \
- --steps 8 \
- --size 1024 \
- --scheduler 'DPM++ SDE Karras' \
- --photo-maker ./photos \
- 'portrait of a man img'
+ --steps 6 \
+ --cfg 2 \
+ --photo-maker test/tesla.webp \
+ --scheduler 'DPM++ SDE Karras'
 ```
 
-reference images can also be specified by filenames
+multiple reference images can be provided:
 
 `--photo-maker 1.png 2.png`
 
 ### IP-Adapter Plus
 
-style reference
+style reference, multiple images can be used:
 
 ```shell
-sdxl 'Mario' --ipa-plus ./styles/
+sdxl 'portrait of a man' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 8 --size 1024x576 \
+ --ipa-plus test/ghibli \
+ --ipa-plus-scale 0.7 \
+ --seed 0
 ```
 
-face reference
+face reference, multiple images can be used:
 
 ```shell
-sdxl 'Mario' --ipa-plus-face face1.png face2.png
+sdxl 'portrait of a man' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 8 --size 1024x576 \
+ --ipa-plus-face test/tesla.webp \
+ --ipa-plus-scale 0.4 \
+ --seed 0
 ```
 
 combined
 
 ```shell
-sdxl 'Mario' --ipa-plus ./styles --ipa-plus-face ./faces
+sdxl 'portrait of a man' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 8 --size 1024x576 \
+ --ipa-plus test/ghibli \
+ --ipa-plus-face test/tesla.webp \
+ --ipa-plus-scale 0.7 0.4 \
+ --cfg 2 \
+ --seed 0
 ```
 
 ### IP-Adapter FaceID Plus
 
 ```shell
-pip install sd-tools[faceid]
+pip install 'sd-tools[faceid]'
 ```
 
 ```shell
-sdxl 'Mario' --ipa-faceid face.png
+sdxl 'man walking on the moon' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 6 \
+ --cfg 2 \
+ --ipa-faceid-plus test/tesla.webp
 ```
 
 ### InstantID
 
 ```shell
-pip install sd-tools[faceid]
+pip install 'sd-tools[faceid]'
 ```
 
 ```shell
-sdxl 'Mario' --instanceid face.png
+sdxl 'man walking on the moon' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 6 \
+ --cfg 2 \
+ --instantid test/tesla.webp
 ```
 
 ## HTTP Server
 
 ```shell
-sdxl 'Mario' --listen '127.0.0.1:8800'
+sdxl 'man walking on the moon' --listen 127.0.0.1:8800
 ```
 
-invoke using curl:
+Invoking using curl:
 
 ```shell
 curl '127.0.0.1:8800?prompt=shell&seed=1' > image.webp
 ```
 
-## More Examples
+## Live Preview
 
 ```shell
-sdxl --model RunDiffusion/Juggernaut-XL-Lightning \
- --prompt 'portrait of a woman' \
- --cfg 1.5 \
- --steps 5 \
+sdxl 'locomotive' --size 512 -i -o output/preview.png
+```
+
+Open output folder in Finder, switch to gallery mode, once generated, image preview will be updated.
+
+You can even set a count to generate more images:
+
+```shell
+> locomotive count=3
+```
+
+To keep the generated images, pass an additional ouput path:
+
+```shell
+sdxl 'locomotive' --size 512 -i -o output/preview.png 'output/{seed}.webp'
+```
+
+## More Examples
+
+### Juggernaut
+
+```shell
+sdxl --prompt 'portrait of a woman' \
+ --model RunDiffusion/Juggernaut-XL-Lightning \
+ --cfg 1.9 \
+ --steps 6 \
  --size 832x1216 \
  --scheduler 'DPM++ SDE' \
  --no-fp16 --no-safetensor
@@ -217,4 +285,6 @@ sdxl --model RunDiffusion/Juggernaut-XL-Lightning \
 
 ## SD 1.5
 
-TBD
+```shell
+sd -h
+```

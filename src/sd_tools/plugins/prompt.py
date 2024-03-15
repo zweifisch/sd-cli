@@ -13,6 +13,6 @@ class PluginPrompt(PluginBase):
 
     def pre_pipe(self):
         if 'prompt' in self.ctx.pipe_opts_otg:
-            self.ctx.pipe_opts.prompt = self.ctx.pipe_opts_otg.pop('prompt')
+            self.ctx.pipe_opts.prompt = self.ctx.pipe_opts_otg.pop('prompt').strip()
         if 'negative_prompt' in self.ctx.pipe_opts_otg:
-            self.ctx.pipe_opts.negative_prompt = self.ctx.pipe_opts_otg.pop('negative_prompt')
+            self.ctx.pipe_opts.negative_prompt = self.ctx.pipe_opts_otg.pop('negative_prompt').strip()

@@ -4,6 +4,7 @@ from .base import PluginBase
 from .utils import remove_none
 import re
 from typing import Tuple, Dict
+import traceback
 
 def parse(text: str) -> Dict[str, str]:
     pattern = r"[a-z0-9._-]+\s*=\s*[a-z0-9._-]+"
@@ -35,10 +36,16 @@ class PluginRun(PluginBase):
                 print(f"Invalid option(s): {', '.join(self.ctx.pipe_opts_otg.keys())}")
                 return
 
+            kwargs = {**remove_none(asdict(self.ctx.pipe_opts)), **self.ctx.pipe_opts_extra}
+            if self.ctx.debug:
+                print(kwargs)
+
             try:
-                result = self.ctx.pipe(**remove_none(asdict(self.ctx.pipe_opts)), **self.ctx.pipe_opts_extra)
+                result = self.ctx.pipe(**kwargs)
             except Exception as e:
                 print(e)
+                if self.ctx.debug:
+                    traceback.print_exc()
                 break
 
             for plugin in self.ctx.plugins:
@@ -53,6 +60,8 @@ class PluginRun(PluginBase):
             try:
                 cmd = prompt('> ', default=self.ctx.pipe_opts.prompt, vi_mode=True, mouse_support=True)
             except EOFError:
+                exit()
+            except KeyboardInterrupt:
                 exit()
             if cmd == ':quit':
                 exit()

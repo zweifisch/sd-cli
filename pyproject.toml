@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "sd_tools"
-version = "1.0.0"
+version = "1.0.1"
 authors = [{ name = "Feng Zhou", email = "zf.pascal@gmail.com" }]
 description = "command line tool for stable diffusion"
 license = { file = "LICENSE" }
@@ -18,7 +18,7 @@ requires-python = ">=3.8"
 dependencies = [
     "torch>=2.2.1",
     "torchvision>=0.17.1",
-    "diffusers>=0.26.3",
+    "diffusers>=0.27.0",
     "transformers>=4.38.2",
     "prompt-toolkit>=3.0.43",
     "controlnet_aux>=0.0.7",
@@ -35,3 +35,4 @@ Home = "https://github.com/zweifisch/sd-cli"
 
 [project.scripts]
 sdxl = "sd_tools.sdxl:main"
+sd = "sd_tools.sd:main"

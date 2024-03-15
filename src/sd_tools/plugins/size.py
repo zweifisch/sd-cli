@@ -8,12 +8,20 @@ def parse_size(size: str) -> Tuple[int, int]:
 class PluginSize(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("--size", type=str, default="1024", help="Size 1024x576, 512, 832x1216")
+        if  self.ctx.arch == 'SD':
+            parser.add_argument("--size", type=str, help="Size 512x512")
+        else:
+            parser.add_argument("--size", type=str, help="Size 1024x1024, 1024x576, 832x1216")
 
     def setup_pipe(self):
-        width, height = parse_size(self.ctx.args.size)
-        self.ctx.pipe_opts.width = width
-        self.ctx.pipe_opts.height = height
+        if self.ctx.args.size:
+            width, height = parse_size(self.ctx.args.size)
+            self.ctx.pipe_opts.width = width
+            self.ctx.pipe_opts.height = height
+        if not self.ctx.pipe_opts.width:
+            self.ctx.pipe_opts.width = 512
+        if not self.ctx.pipe_opts.height:
+            self.ctx.pipe_opts.height = 512
 
     def pre_pipe(self):
         if 'size' in self.ctx.pipe_opts_otg:

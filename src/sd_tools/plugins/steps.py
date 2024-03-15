@@ -8,3 +8,7 @@ class PluginSteps(PluginBase):
 
     def setup_pipe(self):
         self.ctx.pipe_opts.num_inference_steps = self.ctx.args.steps
+
+    def pre_pipe(self):
+        if 'steps' in self.ctx.pipe_opts_otg:
+            self.ctx.pipe_opts.num_inference_steps = int(self.ctx.pipe_opts_otg.pop('steps'))

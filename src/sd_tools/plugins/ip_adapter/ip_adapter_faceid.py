@@ -483,6 +483,15 @@ class IPAdapterFaceIDXL(IPAdapterFaceID):
 class IPAdapterFaceIDPlusXL(IPAdapterFaceIDPlus):
     """SDXL"""
 
+    def __getattr__(self, attr: str):
+        return getattr(self.pipe, attr)
+
+    def __setattr__(self, attr: str, val):
+        if attr == 'scheduler':
+            setattr(self.pipe, attr, val)
+        else:
+            super().__setattr__(attr, val)
+
     def generate(self, **kwargs):
         return self.__call__(**kwargs).images
 
