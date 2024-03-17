@@ -7,3 +7,5 @@ class PluginOffline(PluginBase):
 
     def setup(self):
         self.ctx.offline = self.ctx.args.offline
+        self.ctx.pipeline_opts.local_files_only = self.ctx.args.offline
+        self.ctx.pipeline_opts.resume_download = not self.ctx.args.offline

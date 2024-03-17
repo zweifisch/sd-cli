@@ -18,10 +18,6 @@ class PluginSize(PluginBase):
             width, height = parse_size(self.ctx.args.size)
             self.ctx.pipe_opts.width = width
             self.ctx.pipe_opts.height = height
-        if not self.ctx.pipe_opts.width:
-            self.ctx.pipe_opts.width = 512
-        if not self.ctx.pipe_opts.height:
-            self.ctx.pipe_opts.height = 512
 
     def pre_pipe(self):
         if 'size' in self.ctx.pipe_opts_otg:

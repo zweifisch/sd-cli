@@ -20,8 +20,9 @@ class PluginIPAdaptorPlus(PluginBase):
         from transformers import CLIPVisionModelWithProjection
         self.ctx.pipeline_opts_extra['image_encoder'] = CLIPVisionModelWithProjection.from_pretrained(
             "h94/IP-Adapter",
-            subfolder="models/image_encoder",
+            subfolder='models/image_encoder',
             torch_dtype=torch.float16,
+            local_files_only=self.ctx.offline,
             resume_download=not self.ctx.offline,
         )
 
@@ -34,15 +35,19 @@ class PluginIPAdaptorPlus(PluginBase):
         pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config)
         pipe.set_ip_adapter_scale(args.ipa_plus_scale)
 
+        subfolder = 'sdxl_models'
+        plus = "ip-adapter-plus_sdxl_vit-h.safetensors"
+        plus_face = "ip-adapter-plus-face_sdxl_vit-h.safetensors"
+        if self.ctx.arch == "SD":
+            subfolder = 'models'
+            plus = "ip-adapter-plus_sd15.bin"
+            plus_face = "ip-adapter-plus-face_sd15.bin"
+
         pipe.load_ip_adapter(
             "h94/IP-Adapter",
-            subfolder="sdxl_models",
-            weight_name=[
-                x[0] for x in [
-                    ("ip-adapter-plus_sdxl_vit-h.safetensors", args.ipa_plus),
-                    ("ip-adapter-plus-face_sdxl_vit-h.safetensors", args.ipa_plus_face)
-                ] if x[1]
-            ]
+            subfolder=subfolder,
+            weight_name=[x[0] for x in [(plus, args.ipa_plus), (plus_face, args.ipa_plus_face)] if x[1]],
+            local_files_only=self.ctx.offline,
         )
         self.ctx.pipe_opts_extra['ip_adapter_image'] = [
             x[0] for x in [

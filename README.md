@@ -31,7 +31,7 @@ sdxl 'locomotive' --size 1024x576 --steps 4 --count 3
 By default, images are save to `output/{seed}-{time}.webp`, which can be customized via `-o`:
 
 ```shell
-sdxl 'locomotive' -o 'output/{seed}-{size}-{cfg}-{time}.png'
+sdxl 'locomotive' -o 'output/{seed}-{size}-{cfg}-{time}.webp'
 ```
 
 ### Interactive Mode
@@ -188,7 +188,7 @@ sdxl 'portrait of a man' \
  --model Lykon/dreamshaper-xl-lightning \
  --scheduler 'DPM++ SDE Karras' \
  --steps 8 --size 1024x576 \
- --ipa-plus-face test/tesla.webp \
+ --ipa-plus-face test/tesla-s.webp \
  --ipa-plus-scale 0.4 \
  --seed 0
 ```
@@ -201,7 +201,7 @@ sdxl 'portrait of a man' \
  --scheduler 'DPM++ SDE Karras' \
  --steps 8 --size 1024x576 \
  --ipa-plus test/ghibli \
- --ipa-plus-face test/tesla.webp \
+ --ipa-plus-face test/tesla-s.webp \
  --ipa-plus-scale 0.7 0.4 \
  --cfg 2 \
  --seed 0
@@ -271,10 +271,30 @@ sdxl 'locomotive' --size 512 -i -o output/preview.png 'output/{seed}.webp'
 
 ## More Examples
 
+### Realvis
+
+```shell
+sdxl 'portrait of a woman img, chinese paint style' \
+ --model SG161222/RealVisXL_V4.0_Lightning \
+ --steps 6 --size 768x1024 \
+ --scheduler 'DPM++ SDE Karras' \
+ --cfg 2
+```
+
+### DreamShaper
+
+```shell
+sdxl 'locomotive comming' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --steps 6 --size 1024x576 \
+ --scheduler 'DPM++ SDE Karras' \
+ --cfg 2
+```
+
 ### Juggernaut
 
 ```shell
-sdxl --prompt 'portrait of a woman' \
+sdxl 'portrait of a woman, chinese painting style, Full Body Shot' \
  --model RunDiffusion/Juggernaut-XL-Lightning \
  --cfg 1.9 \
  --steps 6 \
@@ -287,4 +307,50 @@ sdxl --prompt 'portrait of a woman' \
 
 ```shell
 sd -h
+```
+
+### IP-Adapeter FaceID Portrait
+
+```shell
+sd 'portrait of man, masterpiece' \
+ --model Lykon/dreamshaper-8 \
+ --steps 8 \
+ --lcm 1 \
+ --ipa-portrait photo1.png photo2.png \
+ -i
+```
+
+### IP-Adapter Plus
+
+```shell
+sd 'man walking down the street' \
+ --model Lykon/dreamshaper-8 \
+ --steps 10 \
+ --size 760 \
+ --ipa-plus-scale 0.8 \
+ --ipa-plus-face test/tesla-s.webp \
+ --lcm 1
+```
+
+### IP-Adapter Plus Face
+
+```shell
+sd 'man in nature' \
+ --model Lykon/dreamshaper-8 \
+ --steps 10 \
+ --size 760 \
+ --ipa-plus-scale 0.8 \
+ --ipa-plus test/ghibli \
+ --lcm 1
+```
+
+### IP Composition Adapeter
+
+```shell
+sd 'Arnold Schwarzenegger' \
+ --model Lykon/dreamshaper-8 \
+ --steps 10 \
+ --lcm 1 \
+ --seed 4 \
+ --ip-composition test/tesla.webp
 ```

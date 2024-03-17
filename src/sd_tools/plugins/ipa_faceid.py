@@ -30,7 +30,7 @@ class PluginIPAdaptorFaceID(PluginBase):
 
         from .ip_adapter.ip_adapter_faceid import IPAdapterFaceIDXL
 
-        pipe.scheduler = DDIMScheduler(
+        self.ctx.pipe.scheduler = DDIMScheduler(
             num_train_timesteps=1000,
             beta_start=0.00085,
             beta_end=0.012,

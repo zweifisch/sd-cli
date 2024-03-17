@@ -14,9 +14,13 @@ from .plugins.output import PluginOutput
 from .plugins.lora import PluginLora
 from .plugins.seed import PluginSeed
 from .plugins.scheduler import PluginScheduler
+from .plugins.ip_composition import PluginIPCompositionAdapter
+from .plugins.ipa_plus import PluginIPAdaptorPlus
+from .plugins.ipa_faceid_portrait import PluginIPAdaptorFaceIDPortrait
 from .plugins.device import PluginDevice
 from .plugins.lcm import PluginLCM
 from .plugins.offline import PluginOffline
+from .plugins.safetensor import PluginSafetensor
 from .plugins.http import PluginHTTP
 from .plugins.run import PluginRun
 
@@ -40,6 +44,7 @@ Examples:
         PluginDebug(ctx),
         PluginPipe(ctx),
         PluginOffline(ctx),
+        PluginSafetensor(ctx),
         PluginInpainting(ctx),
         PluginModel(ctx),
         PluginDevice(ctx),
@@ -54,9 +59,11 @@ Examples:
         # PluginPose(ctx),
         # PluginDepth(ctx),
         # PluginIPAdaptor(ctx),
-        # PluginIPAdaptorPlus(ctx),
+        PluginIPAdaptorPlus(ctx),
         # PluginIPAdaptorFaceID(ctx),
         # PluginIPAdaptorFaceIDPlus(ctx),
+        PluginIPAdaptorFaceIDPortrait(ctx),
+        PluginIPCompositionAdapter(ctx),
         # PluginImage(ctx),
         PluginScheduler(ctx),
         PluginLora(ctx),

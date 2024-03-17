@@ -19,8 +19,8 @@ class PipeOptions:
     prompt: str = ''
     image: Optional[Image] | List[Image] = None
     negative_prompt: str = ''
-    width: int = 1024
-    height: int = 1024
+    width: int = 512
+    height: int = 512
     num_inference_steps: int = 4
     guidance_scale: float = 0
     num_images_per_prompt: int = 1

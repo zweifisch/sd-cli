@@ -1,5 +1,5 @@
 from .base import PluginBase
-from diffusers import StableDiffusionPipeline
+from diffusers import AutoPipelineForText2Image
 
 class PluginModel(PluginBase):
 
@@ -12,4 +12,5 @@ class PluginModel(PluginBase):
         if not self.ctx.model:
             self.ctx.model = "stabilityai/sd-turbo"
         if not self.ctx.pipeline:
-            self.ctx.pipeline = StableDiffusionPipeline
+            self.ctx.pipeline = AutoPipelineForText2Image
+            self.ctx.pipeline_opts_extra['safety_checker'] = None
