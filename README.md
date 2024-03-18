@@ -1,5 +1,9 @@
 # sd-tools
 
+generating images from commandline
+
+https://github.com/zweifisch/sd-tools/assets/447862/e39bee8d-f7b4-41d9-b1ec-640f341835b5
+
 ```shell
 pip install sd-tools
 ```
