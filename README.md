@@ -241,6 +241,17 @@ sdxl 'man walking on the moon' \
  --instantid test/tesla.webp
 ```
 
+### IP Composition Adapeter
+
+```shell
+sdxl 'Arnold Schwarzenegger' \
+ --model Lykon/dreamshaper-xl-lightning \
+ --scheduler 'DPM++ SDE Karras' \
+ --steps 6 \
+ --cfg 1.2 \
+ --ip-composition test/tesla.webp
+```
+
 ## HTTP Server
 
 ```shell
@@ -357,4 +368,13 @@ sd 'Arnold Schwarzenegger' \
  --lcm 1 \
  --seed 4 \
  --ip-composition test/tesla.webp
+```
+
+### Sketch to Image
+
+[image2image-turbo](https://github.com/GaParmar/img2img-turbo?tab=readme-ov-file)
+
+```shell
+sd 'ethereal fantasy concept art of cat, magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy' \
+  --sketch sketch.png -i -o output/preview.webp
 ```

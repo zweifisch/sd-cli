@@ -367,7 +367,10 @@ class IPAdapterPlusXL(IPAdapter):
         uncond_image_prompt_embeds = self.image_proj_model(uncond_clip_image_embeds)
         return image_prompt_embeds, uncond_image_prompt_embeds
 
-    def generate(
+    def generate(self, **kwargs):
+        return self.__call__(**kwargs).images
+
+    def __call__(
         self,
         pil_image,
         prompt=None,
@@ -416,7 +419,7 @@ class IPAdapterPlusXL(IPAdapter):
 
         generator = get_generator(seed, self.device)
 
-        images = self.pipe(
+        return self.pipe(
             prompt_embeds=prompt_embeds,
             negative_prompt_embeds=negative_prompt_embeds,
             pooled_prompt_embeds=pooled_prompt_embeds,
@@ -424,6 +427,4 @@ class IPAdapterPlusXL(IPAdapter):
             num_inference_steps=num_inference_steps,
             generator=generator,
             **kwargs,
-        ).images
-
-        return images
+        )

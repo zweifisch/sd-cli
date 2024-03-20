@@ -36,3 +36,5 @@ Home = "https://github.com/zweifisch/sd-cli"
 [project.scripts]
 sdxl = "sd_tools.sdxl:main"
 sd = "sd_tools.sd:main"
+pt2st = "sd_tools.misc:pt2st"
+st-inspect = "sd_tools.misc:st_inspect"

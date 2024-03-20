@@ -13,6 +13,7 @@ from .plugins.prompt import PluginPrompt
 from .plugins.modelXL import PluginModelXL
 from .plugins.pipe import PluginPipe
 from .plugins.inpainting import PluginInpainting
+from .plugins.ip_composition_xl import PluginIPCompositionAdapterXL
 from .plugins.tcd import PluginTCD
 from .plugins.lcm import PluginLCM
 from .plugins.steps import PluginSteps
@@ -77,6 +78,7 @@ Examples:
         # PluginIPAdaptorFaceID(ctx),
         PluginIPAdaptorFaceIDPlus(ctx),
         PluginInstantID(ctx),
+        PluginIPCompositionAdapterXL(ctx),
         PluginResAdaptor(ctx),
         PluginImage(ctx),
         PluginScheduler(ctx),
