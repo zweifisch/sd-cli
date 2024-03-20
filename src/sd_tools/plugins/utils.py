@@ -39,3 +39,20 @@ def load_images(locations: List[str]) -> List[Image.Image]:
 
 def remove_none(input_dict):
     return {k: v for k, v in input_dict.items() if v is not None}
+
+def to8(image: Image.Image) -> Image.Image:
+    return image.resize((image.width - image.width % 8, image.height - image.height % 8), Image.LANCZOS)
+
+def canny_from_pil(image, low_threshold=100, high_threshold=200):
+    import cv2
+    import numpy as np
+    image = cv2.Canny(np.array(image), low_threshold, high_threshold)[:, :, None]
+    return Image.fromarray(np.concatenate([image, image, image], axis=2))
+
+class Object:
+    def __init__(self, kvs):
+        for key, value in kvs.items():
+            setattr(self, key, value)
+
+def obj(**kvs):
+    return Object(kvs)

@@ -9,6 +9,7 @@ from .plugins.prompt import PluginPrompt
 from .plugins.model import PluginModel
 from .plugins.pipe import PluginPipe
 from .plugins.inpainting import PluginInpainting
+from .plugins.pix2pix import PluginSketchToImage
 from .plugins.steps import PluginSteps
 from .plugins.output import PluginOutput
 from .plugins.lora import PluginLora
@@ -65,6 +66,7 @@ Examples:
         PluginIPAdaptorFaceIDPortrait(ctx),
         PluginIPCompositionAdapter(ctx),
         # PluginImage(ctx),
+        PluginSketchToImage(ctx),
         PluginScheduler(ctx),
         PluginLora(ctx),
         PluginHTTP(ctx),
