@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "sd_tools"
-version = "1.1.0"
+version = "1.2.0"
 authors = [{ name = "Feng Zhou", email = "zf.pascal@gmail.com" }]
 description = "command line tool for stable diffusion"
 license = { file = "LICENSE" }

@@ -58,6 +58,15 @@ Edited prompt and press enter:
 > locomotive size=1024 cfg=1.9
 ```
 
+### Web UI
+
+```shell
+sdxl 'A green frog' \
+ --model 'Lykon/dreamshaper-xl-lightning' \
+ --scheduler 'DPM++ SDE Karras' \
+ --listen 8888
+```
+
 ### Custom Models
 
 To use a specific model:
