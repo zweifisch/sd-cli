@@ -1,6 +1,9 @@
 # sd-tools
 
-generating images from commandline
+generating images from the command line and web UI
+
+![web](https://github.com/zweifisch/sd-tools/assets/447862/3855dbd1-65ba-4721-ad44-0af6d79eb0c0)
+
 
 https://github.com/zweifisch/sd-tools/assets/447862/e39bee8d-f7b4-41d9-b1ec-640f341835b5
 
