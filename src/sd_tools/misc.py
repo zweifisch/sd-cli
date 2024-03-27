@@ -26,3 +26,15 @@ def st_inspect():
         for k, v in files.items():
             if not v.get('shape'): continue
             print(k, reduce(op.mul, v['shape'], 1), 'x'.join(map(str, v['shape'])))
+
+def to_fp16():
+
+    parser = ArgumentParser('save model as fp16')
+    parser.add_argument('model', type=str)
+    parser.add_argument('output', type=str)
+    args = parser.parse_args()
+
+    from diffusers import AutoPipelineForText2Image
+    pipe = AutoPipelineForText2Image.from_pretrained(args.model, torch_dtype=torch.float16)
+
+    pipe.save_pretrained(args.output, variant='fp16')

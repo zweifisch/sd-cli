@@ -76,17 +76,3 @@ class Server:
         host, port = interface.split(':') if ':' in interface else ('127.0.0.1', interface)
         server = HTTPServer((host, int(port)), Handler)
         server.serve_forever()
-
-class HttpHandler(BaseHTTPRequestHandler):
-
-    handler: List[Tuple[str, str, Callable]] = []
-
-    def GET(self, path: str):
-        def wrapper(handler):
-            self.handler.append(('GET', path, handler))
-        return wrapper
-
-    def POST(self, path: str):
-        def wrapper(handler):
-            self.handler.append(('POST', path, handler))
-        return wrapper

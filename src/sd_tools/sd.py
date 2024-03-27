@@ -20,6 +20,7 @@ from .plugins.ipa_plus import PluginIPAdaptorPlus
 from .plugins.ipa_faceid_portrait import PluginIPAdaptorFaceIDPortrait
 from .plugins.device import PluginDevice
 from .plugins.lcm import PluginLCM
+from .plugins.yoso import PluginYOSO
 from .plugins.offline import PluginOffline
 from .plugins.safetensor import PluginSafetensor
 from .plugins.http import PluginHTTP
@@ -55,6 +56,7 @@ Examples:
         PluginSteps(ctx),
         PluginSeed(ctx),
         PluginLCM(ctx),
+        PluginYOSO(ctx),
         PluginOutput(ctx),
         # PluginCanny(ctx),
         # PluginPose(ctx),

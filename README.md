@@ -4,7 +4,6 @@ generating images from the command line and web UI
 
 ![web](https://github.com/zweifisch/sd-tools/assets/447862/3855dbd1-65ba-4721-ad44-0af6d79eb0c0)
 
-
 https://github.com/zweifisch/sd-tools/assets/447862/e39bee8d-f7b4-41d9-b1ec-640f341835b5
 
 ```shell
@@ -389,4 +388,20 @@ sd 'Arnold Schwarzenegger' \
 ```shell
 sd 'ethereal fantasy concept art of cat, magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy' \
   --sketch sketch.png -i -o output/preview.webp
+```
+
+### SDXS
+
+[SDXS: Real-Time One-Step Latent Diffusion Models with Image Conditions](https://arxiv.org/abs/2403.16627)
+
+```shell
+sd --model zweifisch/sdxs-512-0.9-fp16 'chihuahua' --steps 1 --count 10
+```
+
+### YOSO
+
+[You Only Sample Once](https://www.arxiv.org/abs/2403.12931)
+
+```shell
+sd --model 'SG161222/Realistic_Vision_V6.0_B1_noVAE' 'chihuahua' --steps 2 --no-fp16 --no-safetensor --yoso 1 --count 10 --cfg 1
 ```

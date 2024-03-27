@@ -62,7 +62,7 @@
                     <label for="size" class="text-sm font-medium text-gray-700"
                         >size:</label
                     >
-                    <div class="block flex w-full flex-wrap items-center gap-4">
+                    <div class="flex w-full flex-wrap items-center gap-4">
                         <input
                             type="number"
                             step="8"
@@ -70,7 +70,7 @@
                             min="8"
                             max="3200"
                             value="512"
-                            class="flex grow rounded-md border border-gray-300 px-3 px-3 py-2 py-2 shadow-sm focus:border-black focus:outline-none sm:text-sm"
+                            class="flex grow rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none sm:text-sm"
                         />
                         X
                         <input
@@ -80,7 +80,7 @@
                             min="8"
                             max="3200"
                             value="512"
-                            class="flex grow rounded-md border border-gray-300 px-3 px-3 py-2 py-2 shadow-sm focus:border-black focus:outline-none sm:text-sm"
+                            class="flex grow rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none sm:text-sm"
                         />
                         <div class="block">
                             <span
@@ -113,6 +113,29 @@
                             >
                         </div>
                     </div>
+                </div>
+                <div>
+                    <label
+                        for="scheduler"
+                        class="block text-sm font-medium text-gray-700"
+                        >scheduler:</label
+                    >
+                    <select name="scheduler">
+                        <option value=""></option>
+                        <option value="DPM++ 2M">DPM++ 2M</option>
+                        <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                        <option value="DPM++ 2M SDE">DPM++ 2M SDE</option>
+                        <option value="DPM++ 2M SDE Karras">
+                            DPM++ 2M SDE Karras
+                        </option>
+                        <option value="DPM++ SDE">DPM++ SDE</option>
+                        <option value="DPM++ SDE Karras">
+                            DPM++ SDE Karras
+                        </option>
+                        <option value="Euler">Euler</option>
+                        <option value="Euler a">Euler a</option>
+                        <option value="UniPC">UniPC</option>
+                    </select>
                 </div>
                 <div>
                     <label

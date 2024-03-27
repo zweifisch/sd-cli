@@ -26,3 +26,10 @@ class PluginScheduler(PluginBase):
 
         (Scheduler, config) = scheduler_alias[scheduler]
         self.ctx.pipe.scheduler = Scheduler.from_config(self.ctx.pipe.scheduler.config, **config)
+
+    def pre_pipe(self):
+        if not 'scheduler' in self.ctx.pipe_opts_otg:
+            return
+
+        (Scheduler, config) = scheduler_alias[self.ctx.pipe_opts_otg.pop('scheduler', None)]
+        self.ctx.pipe.scheduler = Scheduler.from_config(self.ctx.pipe.scheduler.config, **config)
