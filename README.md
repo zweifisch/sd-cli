@@ -116,7 +116,7 @@ sdxl 'locomotive' \
 
 ### Speed Up Generation
 
-Using `--lcm`, `--tcd` or `--lightning` to speed up generation, not necessary for turbo/lightning models:
+Using `--lcm`, `--tcd`, `--hyper` or `--lightning` to speed up generation, not necessary for turbo/lightning models:
 
 ```shell
 sdxl 'locomotive' \

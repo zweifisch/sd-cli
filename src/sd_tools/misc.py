@@ -1,3 +1,4 @@
+from huggingface_hub.repocard import hf_hub_download
 import torch
 import json
 import struct
@@ -18,10 +19,16 @@ def pt2st():
 def st_inspect():
 
     parser = ArgumentParser('safetensor inspect')
-    parser.add_argument('file', type=str)
+    parser.add_argument('--file', type=str)
+    parser.add_argument('--hf', type=str)
     args = parser.parse_args()
 
-    with open(args.file, 'rb') as f:
+    path = args.file
+    if args.hf:
+        ns, project, filename = args.hf.split('/', 2)
+        path = hf_hub_download(repo_id=f"{ns}/{project}", filename=filename, local_files_only=True)
+
+    with open(path, 'rb') as f:
         files = json.loads(f.read(struct.unpack('<Q', f.read(8))[0]).decode())
         for k, v in files.items():
             if not v.get('shape'): continue
@@ -38,3 +45,12 @@ def to_fp16():
     pipe = AutoPipelineForText2Image.from_pretrained(args.model, torch_dtype=torch.float16)
 
     pipe.save_pretrained(args.output, variant='fp16')
+
+def hf_path():
+
+    parser = ArgumentParser('get hf cache path')
+    parser.add_argument('file', type=str)
+    args = parser.parse_args()
+
+    ns, project, filename = args.file.split('/', 2)
+    print(hf_hub_download(repo_id=f"{ns}/{project}", filename=filename, local_files_only=True))

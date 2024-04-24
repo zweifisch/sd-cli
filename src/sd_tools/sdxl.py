@@ -6,6 +6,7 @@ from sd_tools.plugins.safetensor import PluginSafetensor
 from .plugins.debug import PluginDebug
 from .plugins.base import Context, PipeOptions, PipelineOptions
 from .plugins.lightning import PluginLightning
+from .plugins.hyper import PluginHyper
 from .plugins.photo_maker import PluginPhotoMaker
 from .plugins.cfg import PluginCFG
 from .plugins.size import PluginSize
@@ -72,6 +73,7 @@ Examples:
         PluginTCD(ctx),
         PluginLCM(ctx),
         PluginLightning(ctx),
+        PluginHyper(ctx),
         PluginOutput(ctx),
         PluginCanny(ctx),
         PluginPose(ctx),

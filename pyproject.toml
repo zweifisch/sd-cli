@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "sd_tools"
-version = "1.3.0"
+version = "1.4.0"
 authors = [{ name = "Feng Zhou", email = "zf.pascal@gmail.com" }]
 description = "command line tool for stable diffusion"
 license = { file = "LICENSE" }
@@ -36,6 +36,7 @@ Home = "https://github.com/zweifisch/sd-cli"
 [project.scripts]
 sdxl = "sd_tools.sdxl:main"
 sd = "sd_tools.sd:main"
-pt2st = "sd_tools.misc:pt2st"
-st-inspect = "sd_tools.misc:st_inspect"
-sd-to-fp16 = "sd_tools.misc:to_fp16"
+sd-pt2st = "sd_tools.misc:pt2st"
+sd-inspect = "sd_tools.misc:st_inspect"
+sd-2fp16 = "sd_tools.misc:to_fp16"
+sd-path = "sd_tools.misc:hf_path"
