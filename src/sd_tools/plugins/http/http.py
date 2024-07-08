@@ -60,6 +60,15 @@ class Server:
             req.end_headers()
             req.wfile.write(body)
             return
+        if match(resp, (str, dict, dict)):
+            content_type, headers, body = resp
+            req.send_response(200)
+            req.send_header('Content-Type', content_type)
+            for k,v in headers.items():
+                req.send_header(k, v)
+            req.end_headers()
+            req.wfile.write(json.dumps(body).encode('utf-8'))
+            return
 
         req.send_response(500)
         req.send_header('Content-Type', 'text/html')

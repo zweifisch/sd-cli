@@ -4,7 +4,7 @@ from .base import PluginBase
 class PluginPrompt(PluginBase):
 
     def setup_args(self, parser):
-        parser.add_argument("prompt", type=str, help="Prompt")
+        parser.add_argument("prompt", type=str, nargs="?", help="Prompt")
         parser.add_argument("--negative-prompt", "--np", type=str, default="worst quality, low quality, blurry, inappropriate pose, deformed, extra limbs, bad posture, bad makeup, watermark, signature, caption, bad eye, open mouth", help="Negative Prompt")
 
     def setup_pipe(self):

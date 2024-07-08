@@ -1,9 +1,20 @@
 import io
 from dataclasses import asdict
 import pkg_resources
+import base64
+import json
 
 from ..base import PluginBase
 from .http import Server
+
+def img_to_data_uri(image):
+    img_io = io.BytesIO()
+    image.save(img_io, 'JPEG')
+    img_io.seek(0)
+    return base64.b64encode(img_io.read()).decode('utf-8')
+
+def remove_none_values(kv):
+    return {key: value for key, value in kv.items() if value is not None}
 
 class PluginHTTP(PluginBase):
 
@@ -44,6 +55,16 @@ class PluginHTTP(PluginBase):
         @server.POST('/')
         def post(req):
             return gen(req.body)
+
+        @server.POST('/v1/images/generations')
+        def openai_like(req):
+            self.ctx.pipe_opts_otg = req.body
+            for plugin in self.ctx.plugins:
+                plugin.pre_pipe()
+            opts = {**asdict(self.ctx.pipe_opts), **self.ctx.pipe_opts_extra}
+            images = self.ctx.pipe(**remove_none_values(opts)).images
+            data = [{"b64_json": img_to_data_uri(x)} for x  in images]
+            return 'application/json', {'Access-Control-Allow-Origin': '*'}, dict(data=data)
 
         interface = self.ctx.args.listen
         host, port = interface.split(':') if ':' in interface else ('127.0.0.1', interface)

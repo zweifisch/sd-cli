@@ -24,7 +24,7 @@ class PipeOptions:
     num_inference_steps: int = 4
     guidance_scale: float = 0
     num_images_per_prompt: int = 1
-    eta: float = 0
+    eta = None
 
 class Pipeline(Protocol):
     @staticmethod
@@ -33,7 +33,7 @@ class Pipeline(Protocol):
 
 @dataclass
 class Context:
-    arch: Union[Literal['SD'] , Literal['SDXL']]
+    arch: Union[Literal['SD'] , Literal['SDXL'], Literal['SD3']]
     args: Namespace = Namespace()
     pipeline: Optional[Any] = None
     pipeline_opts: PipelineOptions = PipelineOptions()
