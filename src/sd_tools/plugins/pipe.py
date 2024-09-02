@@ -21,8 +21,7 @@ class PluginPipe(PluginBase):
                 self.ctx.model,
                 **opts
             ).to(self.ctx.device)
-
         # enable attention slicing if RAM < 64 GB
-        # if (available_ram := psutil.virtual_memory().available / (1024**3)) < 64:
-        #     print(f"available ram {available_ram} < 64")
-        #     self.ctx.pipe.enable_attention_slicing()
+        if self.ctx.arch == 'SD3' and (available_ram := psutil.virtual_memory().available / (1024**3)) < 64:
+            print(f"available ram {available_ram} < 64")
+            self.ctx.pipe.enable_attention_slicing()

@@ -11,6 +11,7 @@ from .plugins.photo_maker import PluginPhotoMaker
 from .plugins.cfg import PluginCFG
 from .plugins.size import PluginSize
 from .plugins.prompt import PluginPrompt
+from .plugins.negative_prompt import PluginNegativePrompt
 from .plugins.wrong import PluginWrong
 from .plugins.modelXL import PluginModelXL
 from .plugins.pipe import PluginPipe
@@ -66,6 +67,7 @@ Examples:
         PluginSize(ctx),
         PluginCFG(ctx),
         PluginPrompt(ctx),
+        PluginNegativePrompt(ctx),
         PluginSteps(ctx),
         PluginSeed(ctx),
         PluginWrong(ctx),

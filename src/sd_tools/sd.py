@@ -6,6 +6,7 @@ from .plugins.base import Context, PipeOptions, PipelineOptions
 from .plugins.cfg import PluginCFG
 from .plugins.size import PluginSize
 from .plugins.prompt import PluginPrompt
+from .plugins.negative_prompt import PluginNegativePrompt
 from .plugins.model import PluginModel
 from .plugins.pipe import PluginPipe
 from .plugins.inpainting import PluginInpainting
@@ -53,6 +54,7 @@ Examples:
         PluginSize(ctx),
         PluginCFG(ctx),
         PluginPrompt(ctx),
+        PluginNegativePrompt(ctx),
         PluginSteps(ctx),
         PluginSeed(ctx),
         PluginLCM(ctx),

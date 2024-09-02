@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "sd_tools"
-version = "1.5.0"
+version = "1.6.0"
 authors = [{ name = "Feng Zhou", email = "zf.pascal@gmail.com" }]
 description = "command line tool for stable diffusion"
 license = { file = "LICENSE" }
@@ -42,3 +42,4 @@ sd-inspect = "sd_tools.misc:st_inspect"
 sd-2fp16 = "sd_tools.misc:to_fp16"
 sd-path = "sd_tools.misc:hf_path"
 auraflow = "sd_tools.auraflow:main"
+flux = "sd_tools.flux:main"

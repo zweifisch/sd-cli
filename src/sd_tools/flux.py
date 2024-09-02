@@ -8,8 +8,7 @@ from .plugins.base import Context, PipeOptions, PipelineOptions
 from .plugins.cfg import PluginCFG
 from .plugins.size import PluginSize
 from .plugins.prompt import PluginPrompt
-from .plugins.negative_prompt import PluginNegativePrompt
-from .plugins.model3 import PluginModel3
+from .plugins.model_flux import PluginModelFlux
 from .plugins.pipe import PluginPipe
 from .plugins.inpainting import PluginInpainting
 from .plugins.steps import PluginSteps
@@ -43,12 +42,11 @@ Examples:
         PluginOffline(ctx),
         PluginSafetensor(ctx),
         PluginInpainting(ctx),
-        PluginModel3(ctx),
+        PluginModelFlux(ctx),
         PluginDevice(ctx),
         PluginSize(ctx),
         PluginCFG(ctx),
         PluginPrompt(ctx),
-        PluginNegativePrompt(ctx),
         PluginSteps(ctx),
         PluginSeed(ctx),
         PluginOutput(ctx),
